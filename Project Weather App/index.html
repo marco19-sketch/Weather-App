@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Weather App</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap "
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css " />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1 id="title">Weather Conditions</h1>
+    <div id="container">
+      <div class="local">
+        <div id="city-icon">
+          <h1 id="town"></h1>
+          <p id="time"></p>
+        </div>
+      </div>
+      <div class="sky">
+        <!-- <p id="clouds"></p> -->
+        <p id="conditions"></p>
+        <img id="icon-svg" />
+
+        <!-- <img id="gif" /> -->
+      </div>
+      <div class="temp-feel">
+        <p id="temperature"></p>
+        <i class="fa-solid fa-temperature-half"></i>
+        <p id="feel-like"></p>
+      </div>
+      <div class="wind-humidity">
+        <p id="wind"></p>
+        <i class="fa-solid fa-wind"></i>
+        <p id="humidity"></p>
+      </div>
+    </div>
+    <input id="city-input" type="text" placeholder="Type a city name..." />
+    <select id="city-select" size="5" style="display: none"></select>
+    <script src="scripts.js"></script>
+  </body>
+</html>
