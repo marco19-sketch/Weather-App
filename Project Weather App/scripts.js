@@ -5,13 +5,13 @@ const temperature = document.getElementById("temperature");
 const feelLike = document.getElementById("feel-like");
 const humidity = document.getElementById("humidity");
 const conditions = document.getElementById("conditions");
-const windGust = document.getElementById("wind");
+const wind = document.getElementById("wind");
 const input = document.querySelector("input");
 const iconSvg = document.getElementById("icon-svg");
 // const gif = document.getElementById("gif");
 const tempGif = document.getElementById("temp-gif");
-const windIcon = document.querySelector('.fa-wind');
-const tempIcon = document.querySelector('.fa-temperature-half');
+const windIcon = document.querySelector(".fa-wind");
+const tempIcon = document.querySelector(".fa-temperature-half");
 // suggestion auto-complete
 const cityInput = document.getElementById("city-input");
 const citySelect = document.getElementById("city-select");
@@ -30,7 +30,7 @@ cityInput.addEventListener("input", async () => {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error ('Error fetching openStreet Data')
+      throw new Error("Error fetching openStreet Data");
     }
     const cities = await response.json();
     // console.log('cities', cities)
@@ -59,7 +59,6 @@ citySelect.addEventListener("change", () => {
   getWeather(selectedCity);
 });
 
-
 // fetch weather conditions
 const getWeather = async city => {
   const weatherApiUrl = `https://api.weatherapi.com/v1/current.json?key=b5004fe6bc954a1db05184834252805&q=${city}&aqi=no`;
@@ -72,29 +71,56 @@ const getWeather = async city => {
     }
 
     const data = await response.json();
+    console.log("data", data);
     const { location, current } = data;
     const {
       cloud,
       temp_c,
+      temp_f,
       feelslike_c,
+      feelslike_f,
       wind_kph,
+      wind_mph,
       humidity: humid,
       condition,
     } = current;
+    console.log("current", current);
     const { icon, text } = condition;
     const { name, localtime } = location;
+    console.log('location', location);
 
     town.textContent = name;
     time.textContent = localtime;
+    console.log('time', localtime)
     // clouds.innerText = `Cloud Cover: ${cloud}%`;
-    temperature.innerText = `Temp.: ${temp_c || 'N/A'} °C`;
-    feelLike.innerText = `Feels Like: ${feelslike_c || 'N/A'} °C`;
-    windGust.innerText = `Wind:  ${wind_kph || "N/A"} km/h`;
-    humidity.innerText = `Humidity: ${humid || 'N/A'}%`;
-    conditions.innerText = text || 'N/A';
+    temperature.innerText = `Temp.: ${temp_c || "N/A"} °C`;
+    feelLike.innerText = `Feels Like: ${feelslike_c || "N/A"} °C`;
+    wind.innerText = `Wind:  ${wind_kph || "N/A"} km/h`;
+    humidity.innerText = `Humidity: ${humid || "N/A"}%`;
+    conditions.innerText = text || "N/A";
     iconSvg.src = icon;
-    tempIcon.style.display = 'block'; 
-    windIcon.style.display = 'block';
+    tempIcon.style.display = "block";
+    windIcon.style.display = "block";
+
+    let isCelsius = true;
+    tempIcon.addEventListener("click", () => {
+      if (isCelsius) {
+        temperature.innerText = `Temp.: ${temp_f || "N/A"} °F`;
+        feelLike.innerText = `Feels Like: ${feelslike_f || "N/A"} °F`;
+      } else {
+        temperature.innerText = `Temp.: ${temp_c || "N/A"} °C`;
+        feelLike.innerText = `Feels Like: ${feelslike_c || "N/A"} °C`;
+      }
+      isCelsius = !isCelsius;
+    });
+
+    let isKm = true;
+    windIcon.addEventListener("click", () => {
+      isKm
+        ? (wind.innerText = `Wind:  ${wind_mph || "N/A"} mph`)
+        : (wind.innerText = `Wind:  ${wind_kph || "N/A"} km/h`);
+      isKm = !isKm;
+    });
 
     // fetch gifs
     // const gifApiKey = "fuoaXs8CwsABba2ChfKH5jiIQJRDXQbV";
@@ -116,4 +142,3 @@ const getWeather = async city => {
     console.error("Fetch error", error);
   }
 };
-
